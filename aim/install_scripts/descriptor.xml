@@ -1,0 +1,19 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<package-descriptor xmlns="http://transerainc.com/installer">
+	<property name="instanceName" regex=".+" default="Default"
+		prompt="Instance Name Suffix"
+		description="The name suffix for this instance of AIM." />
+	<property name="port" regex="[1-9][0-9]{3,4}" default="8786"
+		prompt="Port"
+		description="The port that this instance of AIM should use." />
+	<property name="jmx.port" regex="[1-9][0-9]{3,4}" default="8886"
+		prompt="JMX Port"
+		description="The port on which the JMX Server is going to listen." />
+	<property name="prov.host" regex=".+" default=""
+		prompt="OD Host"
+		description="Host name of OD that this AIM should use." />
+	<property name="prov.port" regex="[1-9][0-9]{3,4}" default="9180"
+		prompt="OD Port"
+		description="Http Port where OD is running." />
+ <uses-database type="prov" version="2.0.0.0" attr-prefix="prov.db"/>
+ </package-descriptor>

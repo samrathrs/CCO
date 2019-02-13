@@ -1,0 +1,297 @@
+/* General html styles */
+body {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 10pt;
+	color: #000;
+	border: 0;
+	margin: 0;
+	background: #fff;
+}
+
+a {
+	color: #000000;
+	text-decoration: underline;
+}
+
+a:hover {
+	color: #FF7F00;
+}
+
+/* specific page sections */
+#content {
+	padding: 20 5 5 5;
+}
+
+#bg-cha {
+	background: url(background_aim.gif) no-repeat top left;
+    background-color: #ebf3ff;
+	height: 74px;
+	width: 100%;
+	border: 0;
+	margin: 0 0 0 0;
+	padding: 0;
+}
+
+#bg-aha {
+	background: url(background_aha.jpg) no-repeat top left;
+	height: 74px;
+	width: 100%;
+	border: 0;
+	margin: 0 0 0 0;
+	padding: 0;
+}
+
+#topright {
+	float: right;
+	font-size: 7pt;
+	background: transparent;
+    background-color: #ebf3ff;
+	margin: 0;
+	padding: 2 20 0 0;
+	text-align: right;
+	white-space: nowrap;
+	z-index: 10;
+}
+
+/* table - mytable */
+table.mytable {
+	width: 98%;
+	font: 85% Verdana, Arial, Helvetica, sans-serif;
+	color: #000;
+	text-align: left;
+	border-collapse: collapse;
+	border: 1px solid #666666;
+	border-top: none;
+}
+
+table.mytable tr.odd {
+	background-color: #ebf3ff;
+}
+
+table.mytable caption {
+	height: 30px;
+	line-height: 28px;
+	width: 98%;
+	margin: 0;
+	padding: 2 0 0 0;
+	background: #fff url(bbar1.gif) repeat-x;
+	border-left: 1px solid #616161;
+	border-right: 1px solid #616161;
+}
+
+table.mytable caption #desc {
+	color: #369;
+	font-weight: bold;
+	text-align: center;
+	background: url(flower.gif) no-repeat left;
+	padding: 0 0 0 22;
+}
+
+table.mytable th {
+	font-size: 90%;
+	border-left: 1px solid #666666;
+	text-align: center;
+	vertical-align: middle;
+	color: #000;
+	background: #ffffff url(th_bg.gif) repeat bottom;
+	height: 22px;
+	border-bottom: 1px solid #616161;
+	border-top: 1px solid #616161;
+}
+
+table.mytable tr {
+	vertical-align: top;
+	white-space: nowrap;
+}
+
+table.mytable tr.vtManaged {
+	color: #369;
+	font-weight: bold;
+	text-align: center;
+	background: url(th_bg.gif) repeat bottom;
+	border-bottom: 1px solid #616161;
+	border-top: 1px solid #616161;
+}
+
+table.mytable tr,th {
+	padding: .25em;
+}
+
+table.mytable td {
+	border-left: 1px solid #dadada;
+	padding: 1px;
+}
+
+table.mytable td.loggedIn {
+    font-weight: bold;
+}
+
+/* table - headertable */
+table.headertable {
+	width: 100%;
+	border: #666666;
+	border-collapse: collapse;
+	border-spacing: 0;
+}
+
+table.headertable tr {
+	text-align: center;
+	border-spacing: 0;
+}
+
+table.headertable td {
+	background-color: #d4e9ff;
+	border-style: solid solid solid solid;
+	border-width: 1px;
+	border-spacing: 0;
+	font-size: 9px;
+}
+
+table.headertable td.unselected { /*background-color: #d4e9ff;*/
+	background: url(bbar1.gif) repeat;
+	border-style: solid solid solid solid;
+	border-width: 1px;
+	border-spacing: 0;
+	font-size: 9px;
+}
+
+table.headertable td.selected {
+	background-color: #fff;
+	border-style: solid solid none solid;
+	border-width: 1px;
+	border-spacing: 0;
+	font-size: 9px;
+	font-weight: bold;
+}
+
+textarea {
+	background-color: #FFFFFF;
+	font-size: 9pt;
+	color: #666666;
+	height:300px;width:100%;
+	border: 1pt solid #333333;
+}
+
+.select {
+	height: 12px;
+	font-size: 7px;
+	font-weight: bold;
+}
+
+.checkbox {
+	padding: 0px;
+	margin: 0px;
+	height: 12px;
+	font-size: 10px;
+}
+
+.button {
+	height: 16px;
+	font-size: 10px;
+}
+
+#linkList { /*
+	position: absolute; 
+	top: 150px; 
+	left: 0px;
+	//right: 170px;
+	min-width: 80%;
+*/
+	
+}
+
+#linkList2 {
+	padding-left: 2px;
+	margin-top: 100px;
+	margin-right: 10px;
+	float: right;
+	padding-bottom: 2px;
+	font: bold 10px verdana, sans-serif;
+	width: 150px;
+	padding-top: 10px;
+	border: #369 1px solid;
+	clear: right;
+	background: transparent url(eossw4a.gif) repeat-x;
+}
+
+#vteamData {
+	position: absolute;
+	top: 150px;
+	left: 0px;
+	right: 170px;
+	clear: left;
+	padding-right: 1px;
+	padding-left: 3px;
+	float: left;
+	padding-bottom: 0px;
+	padding-top: 0px;
+	position: absolute;
+	margin-left: 1px;
+}
+
+
+#linkList2 #numTitle {
+	font: 12px verdana, sans-serif;
+	font-weight: bold;
+	color: #369;
+	text-align: center;
+	margin: 15 5 0 0;
+}
+
+#copyright {
+	bottom: 0;
+	font-size: 8px;
+	font-weight: bold;
+	color: #369;
+	text-align: center;
+	width: 98%;
+	border-top: #369 1px solid;
+	border-bottom: #369 1px solid;
+	background: url("th_bg.gif") repeat-x;
+	padding: 3 10 3 0;
+	line-height: normal;
+	margin-top: 0;
+}
+
+a.tab {
+	border-collapse: collapse;
+	border-style: solid solid none solid;
+	border-color: black;
+	border-width: 1px 1px 0px 1px;
+	background-color: #d4e9ff;
+	background: url(tbar.gif) repeat bottom;
+	padding: 2px 0.5em 0px 0.5em;
+	margin-top: 4px;
+	font-family: arial;
+	text-decoration: none;
+}
+
+a.tab:hover {
+	border-color: black;
+	background-color: white;
+}
+
+.panel {
+	border: solid 1px #369;
+	background-color: white;
+	padding: 5px;
+	overflow: auto;
+}
+
+#allEnterpriseTab {
+    font-size: 16px;
+    font-weight: bold;
+    color: #369;
+    text-align: center;
+}
+
+#enterpriseChartTab {
+    font-size: 12px;
+    font-weight: bold;
+    color: #369;
+    text-align: center;
+}
+
+#mainContent{
+	border:1px solid #000;
+}

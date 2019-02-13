@@ -1,0 +1,9 @@
+Implementation-Title: "Agent Information Manager (AIM)"
+Implementation-Vendor: "Transera Communications Inc."
+Main-Class: com.transerainc.tam.ExtendedInstallPackage
+Specification-Version: "INSTALL_VERSION"
+Manifest-version: 1.0
+Specification-Title: "Agent Control Gateway (ACG"
+Created-By: Ramesh Bobba (Transera Communications Inc.)
+Implementation-Version: "INSTALL_VERSION"
+Specification-Vendor: "Transera Communications Inc.".

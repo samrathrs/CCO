@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?> 
+<project name="TamInstaller" basedir="." default="">
+
+	<target name="setProperties">
+		<property environment="env"/>
+		<property file="${property.file}"/>
+        <property name="jboss.home" value="${env.JBOSS_HOME}"/>
+		<property name="install.dir" value="/opt/aim/aim-${instanceName}"/>
+		<exec outputproperty="host.name"
+		      executable="/bin/sh">
+			<arg value="-c"/>
+			<arg value="echo -n `hostname -f`"/>
+		</exec>
+		<dirname property="antfile.dir" file="${ant.file}"/>
+		<basename property="version" file="${antfile.dir}"/>
+	</target>
+	
+	<target name="checkInstanceExistence" depends="setProperties">
+		<available file="${install.dir}" type="dir" property="instanceExists"/>
+	</target>
+	
+	<target name="backupInstance" depends="setProperties,checkInstanceExistence" if="instanceExists">
+		<delete dir="${install.dir}.bak"/>
+		<move todir="${install.dir}.bak">
+			<fileset dir="${install.dir}"/>
+		</move>
+	</target>
+
+	
+	<!--
+	  The install target is called once to install the software package.
+	  It must be re-entrant and must handle upgrades.
+	  Calling a second time should not re-install the software.
+	  Provided properties:
+	    version - The version of the package being installed
+	-->
+	<target name="install">
+	</target>
+	
+	<!--
+	  Called to uninstall the package.
+	  Must return success if package is not installed.
+	  Provided properties:
+	    version - The version of the package being installed
+	-->
+	<target name="uninstall">
+	</target>
+
+	<!--
+	  Called to create an instance of the package.  May be called multiple times.
+	  Provided properties:
+	    property.file	- A file containing all of the properties for the instance.
+	-->
+	<target name="instantiate" depends="backupInstance">
+		<mkdir dir="/opt/aim"/>
+		<java jar="aim-${version}.jar" fork="true">
+			<jvmarg value="-Dhost.name=${host.name}"/>
+			<jvmarg value="-Djboss.home=${jboss.home}"/>
+			<jvmarg value="-Dinstance.name=aim-${instanceName}"/>
+			<jvmarg value="-Dlistening.port=${port}"/>
+			<jvmarg value="-Djmx.port=${jmx.port}"/>
+			<jvmarg value="-Dinstall.root=/opt/aim"/>
+		</java>
+		
+		<!-- fix newlines in shell scripts -->
+		<fixcrlf srcdir="/opt/aim/aim-${instanceName}/bin"
+		         includes="**/*.sh" />
+		         
+		<!-- add execute permissions to shell scripts -->
+		<chmod dir="/opt/aim/aim-${instanceName}/bin"
+		       perm="ugo+rx" 
+		       includes="**/*.sh"/>
+	</target>
+	
+	<!--
+	  Called to destroy an instance of the package.  May be called multiple times.
+	  Provided properties:
+	    property.file	- A file containing all of the properties for the instance.
+	    
+	  Must return success if the instance does not exist.
+	-->
+	<target name="destroy">
+	</target>
+
+
+
+	<target name="initGenerateEnvironment">
+		<taskdef resource="com/transerainc/installer/antlib.xml"/>
+		<property file="${property.file}"/>
+		<filter filtersfile="${property.file}"/>
+		<available file="${config.dir}/aim-${instanceName}.xml" property="config.exists"/>
+	     <property name="install.dir" value="/opt/aim/aim-${instanceName}"/>
+		<property name="conf.dir" value="${install.dir}/conf"/>
+	</target>
+
+	<!--
+	  Called to generate configuration on the configuration host (provisioning).
+	  May be called multiple times.
+	  Provided properties:
+	    property.file	- A file containing all of the properties for the instance.
+	    config.dir		- The target directory for the configuration files.
+	-->
+	<target name="generateConfig" depends="initGenerateEnvironment">
+		<filter token="apachePort" value="${apache.port}"/>
+		<filter token="InstanceName" value="aim-${instanceName}"/>
+		<filter token="install.dir" value="/opt/aim/aim-${instanceName}"/>
+		<copy file="agent-information-manager.xml" tofile="${config.dir}/aim-${instanceName}.xml" filtering="true" overwrite="true"/>
+		<copy file="server.xml" tofile="${install.dir}/conf/server.xml" filtering="true" overwrite="true"/>			
+
+		<addProcess host="${host}"
+		            instanceName="aim-${instanceName}"
+		            executionString="/opt/aim/aim-${instanceName}/bin/startAim.sh run"
+		            startTimeout="60"
+		            requiredProcess="ConfigAgent"/>
+
+	</target>
+
+	<target name="removeConfig">
+		<taskdef resource="com/transerainc/installer/antlib.xml"/>
+		<property file="${property.file}"/>
+		<removeProcess host="${host}" instanceName="aim-${instanceName}"/>
+		<delete file="${config.dir}/aim-${instanceName}.xml"/>
+	</target>
+
+</project>

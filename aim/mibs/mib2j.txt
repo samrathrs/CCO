@@ -1,0 +1,6 @@
+
+cd ${WORKSPACE}/common/bin/Debug
+
+# To build the AIM MIB java files
+#./mib2j  -m "../../mibs:../../thirdParty/net-snmp/mibs:../../../aam/mibs" -o ../../../aam/src/snmp/mibs AIM-MIB
+./mib2j  -m "../../mibs:/usr/share/snmp/mibs:../../../../../aam/mibs" -o ../../../../../aam/src/snmp/mibs XERA-AIM-MIB

@@ -1,0 +1,326 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<project name="AIM" basedir="." default="all">
+	<property file="properties/build.properties" />
+	<property environment="env" />
+	<path id="build.classpath">
+		<!--fileset dir="${basedir}"-->
+			<!--include name="../provbe/lib/agentProfileBinding.jar" /-->
+		<fileset dir="${tam.lib}">
+			<include name="tamboot.jar" />
+		</fileset>
+		<fileset dir="${3rdParty.dir}">
+					<include name="mysql_jdbc/**/*.jar" />
+		</fileset>
+		<fileset dir="${aim.tomcat}/lib">
+			<include name="*.jar" />
+		</fileset>
+		
+	</path>
+
+	<!-- Define a macro for maven tasks Ref: http://maven.apache.org/ant-tasks/examples/mvn.html -->
+	<property name="maven.home" value="${env.MAVEN_HOME}" />
+	<macrodef name="maven">
+		<attribute name="options" default="" />
+		<attribute name="goal" />
+		<attribute name="basedir" />
+		<attribute name="resultproperty" default="maven.result" />
+		<element name="args" implicit="true" optional="true" />
+		<sequential>
+			<java classname="org.codehaus.classworlds.Launcher" fork="true" dir="@{basedir}" resultproperty="@{resultproperty}">
+				<jvmarg value="-Xmx512m" />
+				<classpath>
+					<fileset dir="${maven.home}/boot">
+						<include name="*.jar" />
+					</fileset>
+					<fileset dir="${maven.home}/lib">
+						<include name="*.jar" />
+					</fileset>
+				</classpath>
+				<sysproperty key="classworlds.conf" value="${maven.home}/bin/m2.conf" />
+				<sysproperty key="maven.home" value="${maven.home}" />
+				<sysproperty key="maven.multiModuleProjectDirectory" value="${maven.home}" />
+				<arg line="--batch-mode @{options} @{goal}" />
+			</java>
+		</sequential>
+	</macrodef>
+
+	<buildnumber file="properties/build.number" />
+
+	<loadproperties srcFile="properties/build.number" />
+
+	<property name="version.string" value="${build.version}.${env.BUILD_NUMBER}" />
+
+	<echo message="Build Version : ${version.string}" />
+
+	<target name="init">
+		<tstamp>
+			<format property="run.time" pattern="MM/dd/yyyy hh:mm aa" />
+		</tstamp>
+		<echo message="Initializing AIM build...${run.time}" />
+		<echo message="Build Directory - ${build.dir}" />
+		<mkdir dir="${build.dir}" />
+		<mkdir dir="${javadoc.dir}" />
+		<!-- Copy Tomcat files -->
+		<copy todir="${basedir}">
+			<zipfileset src="${tomcat.archive.file}" />
+		</copy>
+	</target>
+
+	<target name="compile" depends="init">
+		<antcall target="updateManifest" />
+		<maven basedir="${basedir}" options="-DskipTests=true" goal="clean" resultproperty="maven.build.result" />
+		<maven basedir="${basedir}" options="-DskipTests=true" goal="package" resultproperty="maven.build.result" />
+		<maven basedir="${basedir}" options="-DskipTests=true" goal="dependency:copy-dependencies" resultproperty="maven.build.result" />
+	</target>
+
+	<target name="all" depends="compile">
+	</target>
+
+	<target name="clean">
+		<delete dir="${build.dir}" />
+		<delete dir="${aim.tomcat}" />
+	</target>
+
+	<target name="javadoc" depends="init">
+		<javadoc destdir="${javadoc.dir}">
+			<fileset dir="${src.dir}">
+				<include name="**/*.java" />
+			</fileset>
+		</javadoc>
+	</target>
+
+	<target name="updateManifest">
+
+		<tstamp>
+			<format property="current.timestamp" locale="US" pattern="MM-dd-yyyy hh:mm:ss" />
+		</tstamp>
+
+
+		<echo message="build number ---> ${build.number}" />
+
+		<manifest file="${build.dir}/manifest.mf">
+			<attribute name="Built-By" value="${user.name}" />
+			<attribute name="Main-Class" value="com.transerainc.aim.DisplayManifest" />
+			<attribute name="Created-By" value="Ramesh Bobba" />
+			<attribute name="Specification-Title" value="Agent Information Manager (AIM)" />
+			<attribute name="Specification-Version" value="1.0" />
+			<attribute name="Specification-Vendor" value="Transera Communications Inc." />
+			<attribute name="Implementation-Title" value="Call Handler Application (CHA)" />
+			<attribute name="Implementation-Version" value="${version.string} ${env.HOSTNAME} (${current.timestamp})" />
+			<attribute name="Implementation-Vendor" value="Transera Communications Inc." />
+		</manifest>
+	</target>
+
+	<target name="jar" depends="compile,jspc">
+		<jar destfile="${lib.dir}/aim.jar" manifest="${build.dir}/manifest.mf">
+			<fileset dir="${basedir}/target/classes">
+				<include name="**/*.class" />
+				<exclude name="**/testharness/**" />
+				<exclude name="**/servlet/*" />
+			</fileset>
+		</jar>
+		<mkdir dir="${build.dir}/templates" />
+	</target>
+
+	<target name="deploy" depends="jar">
+		<delete dir="${tomcat.dir}/webapps/aim" />
+		<delete dir="${tomcat.dir}/webapps/aim.war" />
+		<delete dir="${tomcat.dir}/lib/aim.jar" />
+		<mkdir dir="${tomcat.dir}/config" />
+		<copy file="${lib.dir}/aim.jar" todir="${tomcat.dir}/lib" />
+		<copy file="${build.dir}/aim.war" todir="${tomcat.dir}/webapps" />
+		<copy file="./properties/aim-spring.xml" todir="${tomcat.dir}/config" />
+
+		<copy file="./bin/startAim.sh" todir="${tomcat.dir}/bin" />
+		<copy file="./bin/stopAim.sh" todir="${tomcat.dir}/bin" />
+
+		<copy todir="${tomcat.dir}/lib">
+						<fileset dir="${basedir}/target/dependency">
+						</fileset>
+					</copy>
+		<copy file="${tam.lib}/tamboot.jar" todir="${tomcat.dir}/lib" />
+		<copy file="${3rdParty.dir}/J.AgentX/lib/agentxapi.jar" toDir="${tomcat.dir}/lib" />
+		<copy file="${3rdParty.dir}/J.AgentX/lib/snmp.jar" toDir="${tomcat.dir}/lib" />
+		<copy file="${3rdParty.dir}/mysql_jdbc/mysql-connector-java-3.0.15-ga-bin.jar" toDir="${tomcat.dir}/lib" />
+		<mkdir dir="${tomcat.dir}/tpmtemplates" />
+		<copy todir="${tomcat.dir}/tpmtemplates">
+			<fileset dir="${tam.dir}/src/com/transerainc/tpmtemplates">
+				<exclude name="**/CVS" />
+			</fileset>
+		</copy>
+		<copy todir="${tomcat.dir}/config" flatten="true">
+			<fileset dir="${src.dir}">
+				<include name="**/*.xslt" />
+			</fileset>
+		</copy>
+	</target>
+
+	<target name="installer" depends="jar">
+		<property name="install.dir" value="./installer" />
+		<echo message="Current Version is ${version.string}" />
+
+		<property name="install.dir" value="./installer" />
+		<delete dir="${install.dir}" />
+		<mkdir dir="${install.dir}" />
+
+		<copy todir="${install.dir}">
+			<fileset dir="${aim.tomcat}/">
+				<exclude name="lib/**" />
+				<exclude name="webapps/docs/**"/>
+				<exclude name="webapps/examples/**"/>
+				<exclude name="webapps/manager/**"/>
+				<exclude name="webapps/host-manager/**"/>
+			</fileset>
+		</copy>
+
+		<delete dir="${install.dir}/server" />
+		<delete dir="${install.dir}/common" />
+
+		<mkdir dir="${install.dir}/logs" />
+		<touch file="${install.dir}/logs/.default" />
+		<mkdir dir="${install.dir}/config" />
+		<copy file="${lib.dir}/aim.jar" todir="${install.dir}/lib" />
+		<copy file="${build.dir}/aim.war" todir="${install.dir}/webapps" />
+		<copy todir="${install.dir}/config" file="properties/agent-information-manager.xml" />
+		<copy todir="${install.dir}/config" flatten="true">
+			<fileset dir="properties">
+				<include name="**/*.xslt" />
+			</fileset>
+		</copy>
+		<copy todir="${install.dir}/bin">
+			<fileset dir="./bin">
+				<include name="**/*.sh" />
+			</fileset>
+		</copy>
+		<copy todir="${install.dir}" file="./properties/installer.properties" />
+		<copy todir="${install.dir}/config" file="./properties/aim-spring.xml" />
+		<copy todir="${install.dir}/conf"  file="./properties/server.xml" overwrite="true"/>
+		<copy todir="${install.dir}/conf"  file="./properties/logging.properties" overwrite="true"/>
+		<copy todir="${install.dir}/lib">
+					<fileset dir="${basedir}/target/dependency">
+					</fileset>
+				</copy>
+		<copy file="${tam.lib}/tamboot.jar" todir="${install.dir}/lib" />
+		<copy file="${3rdParty.dir}/mysql_jdbc/mysql-connector-java-3.0.15-ga-bin.jar" toDir="${install.dir}/lib" />
+		<copy file="${3rdParty.dir}/J.AgentX/lib/agentxapi.jar" toDir="${install.dir}/lib" />
+		<copy file="${3rdParty.dir}/J.AgentX/lib/snmp.jar" toDir="${install.dir}/lib" />
+		<mkdir dir="${install.dir}/tpmtemplates" />
+		<copy todir="${install.dir}/tpmtemplates">
+			<fileset dir="${tam.dir}/src/com/transerainc/tpmtemplates">
+				<exclude name="**/CVS" />
+			</fileset>
+		</copy>
+
+		<mkdir dir="${install.dir}/com" />
+		<mkdir dir="${install.dir}/com/transerainc" />
+		<mkdir dir="${install.dir}/com/transerainc/tam" />
+		<copy file="${webapp.dir}/WEB-INF/classes/com/transerainc/tam/ExtendedInstallPackage.class" todir="${install.dir}/com/transerainc/tam" />
+		<copy file="./properties/install-manifest.mf" todir="${build.dir}" overwrite="yes" />
+		<replace file="${build.dir}/install-manifest.mf" token="INSTALL_VERSION" value="${version.string}" />
+
+
+		<jar destfile="${build.dir}/aim-${version.string}.jar" basedir="${install.dir}" includes="**/*" manifest="${build.dir}/install-manifest.mf" />
+
+		<delete dir="${package.dir}" />
+		<mkdir dir="${package.dir}/AIM/${version.string}" />
+		<copy todir="${package.dir}/AIM/${version.string}">
+			<fileset file="${build.dir}/aim-${version.string}.jar" />
+			<fileset dir="${basedir}/install_scripts" includes="*.xml,*.xslt" />
+			<fileset dir="${basedir}/properties" includes="*.xml,*.xslt" />
+		</copy>
+
+	</target>
+
+	<!-- target called by a parent build script that passes the build.path for updatemanifest to work -->
+	<target name="parentinstaller" description="parentinstaller">
+		<echo message="In parent installer build.path from parent is ${build.path}" />
+
+		<antcall target="installer">
+			<param name="default.build.path" value="${build.path}" />
+		</antcall>
+
+		<!--
+            check in the jars and ears built into cvs.
+        -->
+		<cvs cvsRoot="${env.CVSROOT}" command="commit -m '${msg}' ${lib.dir}/aim.jar" />
+		<cvs cvsRoot="${env.CVSROOT}" command="commit -m '${msg}' ./properties/build.number" />
+
+	</target>
+
+	<target name="tomcat" description="Deploys the tomcat files">
+		<mkdir dir="${tomcat.dir}" />
+		<copy todir="${tomcat.dir}">
+			<fileset dir="tomcat">
+				<exclude name="**/CVS" />
+			</fileset>
+		</copy>
+
+	</target>
+
+	<target name="jspc" depends="init">
+		<delete dir="${webapp.dir}" />
+		<mkdir dir="${webapp.dir}" />
+		<mkdir dir="${webapp.dir}/WEB-INF" />
+		<mkdir dir="${webapp.dir}/WEB-INF/src" />
+		<mkdir dir="${webapp.dir}/WEB-INF/classes" />
+		<taskdef classname="org.apache.jasper.JspC" name="jasper2">
+			<classpath id="build.classpath">
+				<pathelement location="${java.home}/../lib/tools.jar" />
+				<fileset dir="${aim.tomcat}/bin">
+					<include name="*.jar" />
+				</fileset>
+				<fileset dir="${aim.tomcat}/lib">
+					<include name="*.jar" />
+				</fileset>
+			</classpath>
+		</taskdef>
+
+		<copy todir="${webapp.dir}">
+			<fileset dir="${src.dir}/jsp/">
+				<exclude name="**/CVS" />
+			</fileset>
+		</copy>
+		<copy todir="${webapp.dir}/WEB-INF" file="./properties/web.xml" />
+
+		<jasper2 verbose="9" validateXml="false" uriroot="${webapp.dir}" webXmlFragment="${webapp.dir}/WEB-INF/generated_web.xml" outputDir="${webapp.dir}/WEB-INF/src" />
+
+		<echo message="Loading generated web.xml content" />
+		<loadfile property="gen.web.xml.content" srcFile="${webapp.dir}/WEB-INF/generated_web.xml" />
+		<echo message="replacing token in the web.xml" />
+		<replace file="${webapp.dir}/WEB-INF/web.xml" token="@@@" value="${gen.web.xml.content}" />
+		<echo message="compiling generated java files" />
+		<javac destdir="${webapp.dir}/WEB-INF/classes" optimize="off" debug="on" failonerror="false" srcdir="${webapp.dir}/WEB-INF/src" excludes="**/*.smap">
+			<classpath>
+				<pathelement location="${basedir}/target/classes" />
+				<pathelement location="${webapp.dir}/WEB-INF/classes" />
+				<pathelement location="${aim.tomcat}/common/classes" />
+				<fileset dir="${aim.tomcat}/lib">
+					<include name="*.jar" />
+				</fileset>
+				<fileset dir="${tam.lib}/">
+					<include name="*.jar" />
+				</fileset>
+				<fileset dir="${aim.tomcat}/bin">
+					<include name="*.jar" />
+				</fileset>
+			</classpath>
+			<include name="**" />
+			<exclude name="tags/**" />
+		</javac>
+		<echo message="copying servlet classes" />
+		<copy todir="${webapp.dir}/WEB-INF/classes">
+			<fileset dir="${basedir}/target/classes">
+				<include name="**/*Servlet.class" />
+			</fileset>
+		</copy>
+		<unjar src="${tam.lib}/tam.jar" dest="${webapp.dir}/WEB-INF/classes">
+			<patternset>
+				<include name="**/NotificationServerInterfaceServlet.class" />
+				<include name="**/*InstallPackage.class" />
+			</patternset>
+		</unjar>
+		<echo message="compiling generated java files" />
+		<war destfile="${build.dir}/aim.war" webxml="${webapp.dir}/WEB-INF/web.xml" basedir="${webapp.dir}" manifest="${build.dir}/manifest.mf" includes="**/WEB-INF/*,**/WEB-INF/classes/**,**/META-INF/*,*.jsp,*.html,*.css,*.gif,*.jpg,*.js,css/*,images/**/*,js/*" />
+	</target>
+
+</project>

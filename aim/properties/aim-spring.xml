@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="
+http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+
+	<bean id="configManager"
+		class="com.transerainc.aim.conf.ConfigurationManager"
+		scope="singleton">
+		<!--  The first argument specifies the instance name -->
+		<constructor-arg value="INSTANCE_NAME" />
+		<!--  Config Agent URL -->
+		<constructor-arg value="http://localhost:9877/config-agent" />
+		<!-- XPath for server config -->
+		<constructor-arg
+			value="/server/host[@id=''{0}'']/process[@id=''{1}'']" />
+		<!-- Server Config transformer URI -->
+		<constructor-arg value="/opt/aim/default-aim/config/aim.xslt" />
+	</bean>
+
+	<bean id="sqlStatementMgr"
+		class="com.transerainc.aim.db.SqlStatementManager"
+		scope="singleton">
+		<constructor-arg ref="configManager" />
+	</bean>
+
+	<bean id="provManager"
+		class="com.transerainc.aim.provisioning.ProvisioningManager"
+		scope="singleton">
+		<constructor-arg ref="configManager" />
+		<constructor-arg ref="sqlStatementMgr" />
+	</bean>
+
+	<bean id="trapManager" class="com.transerainc.aim.snmp.TrapManager"
+		scope="singleton" init-method="start">
+		<constructor-arg value="INSTANCE_NAME" />
+		<constructor-arg value="127.0.0.1" />
+		<constructor-arg value="705" />
+		<constructor-arg value="3" />
+		<constructor-arg value="aim-agent" />
+		<constructor-arg value="false" />
+	</bean>
+
+	<bean id="nsSubscriber"
+		class="com.transerainc.aim.ns.NotificationSubscriber"
+		scope="singleton" init-method="subscribe">
+		<constructor-arg ref="configManager" />
+	</bean>
+
+	<bean id="acgNotificationManager"
+		class="com.transerainc.aim.notifier.ACGNotificationManager"
+		scope="singleton" init-method="start">
+		<constructor-arg ref="configManager" />
+		<constructor-arg ref="activeAgentManager" />
+	</bean>
+
+	<bean id="activeAgentManager"
+		class="com.transerainc.aim.runtime.ActiveAgentManager"
+		scope="singleton">
+	</bean>
+	
+	<bean id="activeSupervisorManager"
+		class="com.transerainc.aim.runtime.ActiveSupervisorManager"
+		scope="singleton">
+	</bean>
+
+	<bean id="agentLockoutManager"
+		class="com.transerainc.aim.runtime.AgentLockoutManager"
+		scope="singleton">
+		<constructor-arg ref="configManager" />
+	</bean>
+
+	<bean id="aimNotifManager"
+		class="com.transerainc.aim.runtime.AIMNotificationManager"
+		scope="singleton" init-method="start">
+		<constructor-arg ref="configManager" />
+	</bean>
+
+	<bean id="aimAgentStateMonitor"
+		class="com.transerainc.aim.monitor.AgentStateMonitorManager"
+		scope="singleton" init-method="start">
+		<constructor-arg ref="configManager" />
+	</bean>
+
+	<bean id="beanInitializer"
+		class="com.transerainc.aim.system.BeanInitializer" scope="singleton"
+		init-method="initialize">
+		<constructor-arg
+			value="provManager,trapManager,nsSubscriber,activeAgentManager,acgNotificationManager,aimNotifManager,aimAgentStateMonitor,activeSupervisorManager" />
+	</bean>
+</beans>

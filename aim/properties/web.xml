@@ -1,0 +1,256 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE web-app PUBLIC "-//Sun Microsystems, Inc.//DTD Web Application 2.3//EN" 
+	"http://java.sun.com/dtd/web-app_2_3.dtd">
+
+<web-app>
+	<display-name>Agent Information Manager</display-name>
+
+
+	<servlet>
+		<servlet-name>LoginServlet</servlet-name>
+		<servlet-class>
+			com.transerainc.aim.servlet.LoginServlet
+		</servlet-class>
+		<load-on-startup>1</load-on-startup>
+	</servlet>
+	
+	<servlet>
+		<servlet-name>AuthenticatedServlet</servlet-name>
+		<servlet-class>
+			com.transerainc.aim.servlet.AuthenticatedServlet
+		</servlet-class>
+		<load-on-startup>1</load-on-startup>
+	</servlet>
+	<servlet>
+		<servlet-name>AgentPropertiesServlet</servlet-name>
+		<servlet-class>
+			com.transerainc.aim.servlet.AgentPropertiesServlet
+		</servlet-class>
+		<load-on-startup>1</load-on-startup>
+	</servlet>
+
+	<servlet>
+		<servlet-name>ActiveAgentServlet</servlet-name>
+		<servlet-class>
+			com.transerainc.aim.servlet.ActiveAgentServlet
+		</servlet-class>
+		<load-on-startup>1</load-on-startup>
+	</servlet>
+	
+	<servlet>
+		<servlet-name>ActiveSupervisorServlet</servlet-name>
+		<servlet-class>
+			com.transerainc.aim.servlet.ActiveSupervisorServlet
+		</servlet-class>
+		<load-on-startup>1</load-on-startup>
+	</servlet>
+
+    <servlet>
+        <servlet-name>RoutingDataInterfaceServlet</servlet-name>
+        <servlet-class>
+            com.transerainc.aim.servlet.RoutingDataInterfaceServlet
+        </servlet-class>
+        <load-on-startup>1</load-on-startup>
+    </servlet>
+
+	<servlet>
+		<servlet-name>AuthenticationFailureInterfaceServlet</servlet-name>
+		<servlet-class>
+			com.transerainc.aim.servlet.AuthenticationFailureInterfaceServlet
+		</servlet-class>
+		<load-on-startup>1</load-on-startup>
+	</servlet>
+
+	<servlet>
+		<servlet-name>ViewActiveAgentsServlet</servlet-name>
+		<servlet-class>
+			com.transerainc.aim.servlet.ViewActiveAgentsServlet
+		</servlet-class>
+		<load-on-startup>1</load-on-startup>
+	</servlet>
+
+	<servlet>
+		<servlet-name>ProvisioningDataInterfaceServlet</servlet-name>
+		<servlet-class>
+			com.transerainc.aim.servlet.ProvisioningDataInterfaceServlet
+		</servlet-class>
+		<load-on-startup>1</load-on-startup>
+	</servlet>
+
+    <servlet>
+		<servlet-name>SessionValidationServlet</servlet-name>
+		<servlet-class>
+			com.transerainc.aim.servlet.SessionValidationServlet
+		</servlet-class>
+		<load-on-startup>1</load-on-startup>
+	</servlet>
+	
+	<servlet>
+		<servlet-name>AgentThirdPartyProfileServlet</servlet-name>
+		<servlet-class>
+			com.transerainc.aim.servlet.AgentThirdPartyProfileServlet
+		</servlet-class>
+		<load-on-startup>1</load-on-startup>
+	</servlet>
+	
+	<servlet>
+		<servlet-name>LoggerConfig</servlet-name>
+		<servlet-class>
+			com.transerainc.aim.servlet.LoggerConfigServlet
+		</servlet-class>
+		<load-on-startup>1</load-on-startup>
+	</servlet>
+
+	<servlet>
+		<servlet-name>ConfigListenerServlet</servlet-name>
+		<servlet-class>
+			com.transerainc.aim.servlet.ConfigListenerServlet
+		</servlet-class>
+		<load-on-startup>1</load-on-startup>
+	</servlet>
+
+	<servlet>
+		<servlet-name>PingServlet</servlet-name>
+		<servlet-class>
+			com.transerainc.aim.servlet.PingServlet
+		</servlet-class>
+		<load-on-startup>1</load-on-startup>
+	</servlet>
+
+	<servlet>
+		<servlet-name>StartupServlet</servlet-name>
+		<servlet-class>
+			com.transerainc.aim.servlet.StartupServlet
+		</servlet-class>
+		<load-on-startup>1</load-on-startup>
+	</servlet>
+
+	<servlet>
+		<servlet-name>ShutdownServlet</servlet-name>
+		<servlet-class>
+			com.transerainc.aim.servlet.ShutdownServlet
+		</servlet-class>
+		<load-on-startup>1</load-on-startup>
+	</servlet>
+
+	<servlet>
+		<servlet-name>NotificationServerInterface</servlet-name>
+		<servlet-class>
+			com.transerainc.tam.ns.NotificationServerInterfaceServlet
+		</servlet-class>
+		<load-on-startup>1</load-on-startup>
+	</servlet>
+
+	<servlet>
+		<servlet-name>ServerConfigDisplay</servlet-name>
+		<servlet-class>
+			com.transerainc.aim.servlet.ServerConfigDisplayServlet
+		</servlet-class>
+		<load-on-startup>1</load-on-startup>
+	</servlet>
+
+	<servlet>
+		<servlet-name>JbossStatus</servlet-name>
+		<servlet-class>
+			org.jboss.web.tomcat.tc5.StatusServlet
+		</servlet-class>
+	</servlet>
+
+	<servlet-mapping>
+		<servlet-name>LoginServlet</servlet-name>
+		<url-pattern>/login</url-pattern>
+	</servlet-mapping>
+
+	<servlet-mapping>
+		<servlet-name>AuthenticatedServlet</servlet-name>
+		<url-pattern>/authenticated</url-pattern>
+	</servlet-mapping>
+	
+	<servlet-mapping>
+		<servlet-name>AgentPropertiesServlet</servlet-name>
+		<url-pattern>/agentPropertiesIntf</url-pattern>
+	</servlet-mapping>
+
+	<servlet-mapping>
+		<servlet-name>ActiveAgentServlet</servlet-name>
+		<url-pattern>/activeAgentIntf</url-pattern>
+	</servlet-mapping>
+	
+	<servlet-mapping>
+		<servlet-name>ActiveSupervisorServlet</servlet-name>
+		<url-pattern>/activeSupervisorIntf</url-pattern>
+	</servlet-mapping>
+
+    <servlet-mapping>
+        <servlet-name>RoutingDataInterfaceServlet</servlet-name>
+        <url-pattern>/routingDataIntf</url-pattern>
+    </servlet-mapping>
+
+	<servlet-mapping>
+		<servlet-name>AuthenticationFailureInterfaceServlet</servlet-name>
+		<url-pattern>/authFailureIntf</url-pattern>
+	</servlet-mapping>
+
+	<servlet-mapping>
+		<servlet-name>ViewActiveAgentsServlet</servlet-name>
+		<url-pattern>/lookupActiveAgentsIntf</url-pattern>
+	</servlet-mapping>
+
+	<servlet-mapping>
+		<servlet-name>ProvisioningDataInterfaceServlet</servlet-name>
+		<url-pattern>/provDataIntf</url-pattern>
+	</servlet-mapping>
+	
+	<servlet-mapping>
+		<servlet-name>SessionValidationServlet</servlet-name>
+		<url-pattern>/svIntf</url-pattern>
+	</servlet-mapping>
+	
+	<servlet-mapping>
+		<servlet-name>AgentThirdPartyProfileServlet</servlet-name>
+		<url-pattern>/tppIntf</url-pattern>
+	</servlet-mapping>
+	
+
+	<servlet-mapping>
+		<servlet-name>LoggerConfig</servlet-name>
+		<url-pattern>/configLogger</url-pattern>
+	</servlet-mapping>
+
+	<servlet-mapping>
+		<servlet-name>ConfigListenerServlet</servlet-name>
+		<url-pattern>/configListener</url-pattern>
+	</servlet-mapping>
+
+	<servlet-mapping>
+		<servlet-name>PingServlet</servlet-name>
+		<url-pattern>/doPing</url-pattern>
+	</servlet-mapping>
+
+	<servlet-mapping>
+		<servlet-name>ShutdownServlet</servlet-name>
+		<url-pattern>/doShutdown</url-pattern>
+	</servlet-mapping>
+
+	<servlet-mapping>
+		<servlet-name>NotificationServerInterface</servlet-name>
+		<url-pattern>/nsIntf</url-pattern>
+	</servlet-mapping>
+
+	<servlet-mapping>
+		<servlet-name>ServerConfigDisplay</servlet-name>
+		<url-pattern>/serverConfigDisplay</url-pattern>
+	</servlet-mapping>
+
+	<servlet-mapping>
+		<servlet-name>JbossStatus</servlet-name>
+		<url-pattern>/jboss-status</url-pattern>
+	</servlet-mapping>
+
+	@@@
+
+	<welcome-file-list>
+		<welcome-file>aim.jsp</welcome-file>
+	</welcome-file-list>
+
+</web-app>

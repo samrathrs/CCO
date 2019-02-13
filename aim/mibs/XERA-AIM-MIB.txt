@@ -1,0 +1,322 @@
+XERA-AIM-MIB DEFINITIONS ::= BEGIN
+
+    IMPORTS
+        MODULE-IDENTITY,
+        OBJECT-TYPE,
+        NOTIFICATION-TYPE,
+        TimeTicks,
+        Integer32,
+        Counter32,
+        Unsigned32
+            FROM SNMPv2-SMI
+
+        DisplayString
+            FROM SNMPv2-TC
+
+        xera,
+        DisplayString32,
+        xeraProcessName,
+        TrapSeverity,
+        xeraTrapSeverity
+            FROM XERA-MIB
+        ;
+
+    xeraAim MODULE-IDENTITY
+        LAST-UPDATED "200802120000Z"
+        ORGANIZATION "Transera Communications, Inc."
+        CONTACT-INFO "support@transerainc.com"
+        DESCRIPTION  "MIB definitions for AIM"
+        REVISION     "200802120000Z"
+        DESCRIPTION  "Initial revision."
+    ::= { xera 22 }
+
+    --**********************************************************
+    -- Instance Table
+    --**********************************************************
+    xeraAimInstanceTable OBJECT-TYPE
+        SYNTAX      SEQUENCE OF XeraAimInstanceTableEntrySyntax
+        MAX-ACCESS  not-accessible
+        STATUS      current
+        DESCRIPTION
+            "The instance table"
+        ::= { xeraAim 1 }
+
+    xeraAimInstanceTableEntry OBJECT-TYPE
+        SYNTAX      XeraAimInstanceTableEntrySyntax
+        MAX-ACCESS  not-accessible
+        STATUS      current
+        DESCRIPTION "Entry for the instance table"
+        INDEX       { xeraProcessName }
+        ::= { xeraAimInstanceTable 1 }
+
+    XeraAimInstanceTableEntrySyntax ::= SEQUENCE {
+        xeraAimLogin DisplayString32,
+        xeraAimProcessName DisplayString32,
+        xeraAimCompanyName DisplayString32,
+        xeraAimTenantId DisplayString32,
+        xeraAimAgentId DisplayString32,
+        xeraAimAgentName DisplayString32,
+        xeraAimFilename DisplayString,
+        xeraAimDatatype DisplayString32,
+        xeraAimTpgIpAddress DisplayString32,
+        xeraAimOperationType DisplayString32,
+        xeraAimHostname DisplayString,
+        xeraAimConfigAgentUrl DisplayString,
+        xeraAimXpath DisplayString,
+        xeraAimXsltFile DisplayString,
+        xeraAimErrorMessage DisplayString,
+        xeraAimDatabaseUrl DisplayString,
+        xeraAimDatabaseUser DisplayString32,
+        xeraAimAcgUrl DisplayString, 
+        xeraAimMessage DisplayString,
+        xeraAimUrl DisplayString,
+        xeraAimRetryCount Integer32,
+        xeraAimCommand DisplayString32
+    }
+
+     xeraAimLogin OBJECT-TYPE
+        SYNTAX      DisplayString32
+        MAX-ACCESS  read-only
+        STATUS      current
+        DESCRIPTION
+            "Login Id used by the agent while loging in"
+        ::= { xeraAimInstanceTableEntry 1 }
+
+     xeraAimProcessName OBJECT-TYPE
+        SYNTAX      DisplayString32
+        MAX-ACCESS  read-only
+        STATUS      current
+        DESCRIPTION
+            "The name of the AIM instance"
+        ::= { xeraAimInstanceTableEntry 2 }
+
+     xeraAimCompanyName OBJECT-TYPE
+        SYNTAX      DisplayString32
+        MAX-ACCESS  read-only
+        STATUS      current
+        DESCRIPTION
+            "The name of the company that the agent used to login"
+        ::= { xeraAimInstanceTableEntry 3 }
+
+     xeraAimTenantId OBJECT-TYPE
+        SYNTAX      DisplayString32
+        MAX-ACCESS  read-only
+        STATUS      current
+        DESCRIPTION
+            "The provisioned Id of the tenant (company) that the agent is logged into or is trying to login into"
+        ::= { xeraAimInstanceTableEntry 4 }
+
+     xeraAimAgentId OBJECT-TYPE
+        SYNTAX      DisplayString32
+        MAX-ACCESS  read-only
+        STATUS      current
+        DESCRIPTION
+            "The provisioned Id of the agent that is logged into or is trying to login into"
+        ::= { xeraAimInstanceTableEntry 5 }
+
+     xeraAimAgentName OBJECT-TYPE
+        SYNTAX      DisplayString32
+        MAX-ACCESS  read-only
+        STATUS      current
+        DESCRIPTION
+            "The provisioned name of the agent that is logged into or is trying to login into"
+        ::= { xeraAimInstanceTableEntry 6 }
+
+     xeraAimFilename OBJECT-TYPE
+        SYNTAX      DisplayString
+        MAX-ACCESS  read-only
+        STATUS      current
+        DESCRIPTION
+            "Name of the file"
+        ::= { xeraAimInstanceTableEntry 7 }
+
+     xeraAimDatatype OBJECT-TYPE
+        SYNTAX      DisplayString32
+        MAX-ACCESS  read-only
+        STATUS      current
+        DESCRIPTION
+            "What datatype is being stored"
+        ::= { xeraAimInstanceTableEntry 8 }
+
+     xeraAimTpgIpAddress OBJECT-TYPE
+        SYNTAX      DisplayString32
+        MAX-ACCESS  read-only
+        STATUS      current
+        DESCRIPTION
+            "IP Address of the TPG from where the request came in"
+        ::= { xeraAimInstanceTableEntry 9 }
+
+     xeraAimOperationType OBJECT-TYPE
+        SYNTAX      DisplayString32
+        MAX-ACCESS  read-only
+        STATUS      current
+        DESCRIPTION
+            "Specifies whether it is a read or a write"
+        ::= { xeraAimInstanceTableEntry 10 }
+
+     xeraAimHostname OBJECT-TYPE
+        SYNTAX      DisplayString
+        MAX-ACCESS  read-only
+        STATUS      current
+        DESCRIPTION
+            "Name of the host"
+        ::= { xeraAimInstanceTableEntry 11 }
+
+     xeraAimConfigAgentUrl OBJECT-TYPE
+        SYNTAX      DisplayString
+        MAX-ACCESS  read-only
+        STATUS      current
+        DESCRIPTION
+            "URL for the config agent that the process is trying to contact"
+        ::= { xeraAimInstanceTableEntry 12 }
+
+     xeraAimXpath OBJECT-TYPE
+        SYNTAX      DisplayString
+        MAX-ACCESS  read-only
+        STATUS      current
+        DESCRIPTION
+            "XPath being used"
+        ::= { xeraAimInstanceTableEntry 13 }
+
+     xeraAimXsltFile OBJECT-TYPE
+        SYNTAX      DisplayString
+        MAX-ACCESS  read-only
+        STATUS      current
+        DESCRIPTION
+            "The XSLT file being used"
+        ::= { xeraAimInstanceTableEntry 14 }
+
+     xeraAimErrorMessage OBJECT-TYPE
+        SYNTAX      DisplayString
+        MAX-ACCESS  read-only
+        STATUS      current
+        DESCRIPTION
+            "Specific error message if any."
+        ::= { xeraAimInstanceTableEntry 15 }
+    
+     xeraAimDatabaseUrl OBJECT-TYPE
+        SYNTAX      DisplayString
+        MAX-ACCESS  read-only
+        STATUS      current
+        DESCRIPTION
+            "URL for the database"
+        ::= { xeraAimInstanceTableEntry 16 }
+    
+     xeraAimDatabaseUser OBJECT-TYPE
+        SYNTAX      DisplayString32
+        MAX-ACCESS  read-only
+        STATUS      current
+        DESCRIPTION
+            "Specific error message if any."
+        ::= { xeraAimInstanceTableEntry 17 }
+    
+     xeraAimAcgUrl OBJECT-TYPE
+        SYNTAX      DisplayString
+        MAX-ACCESS  read-only
+        STATUS      current
+        DESCRIPTION
+            "The ACG URL that AIM is trying to contact."
+        ::= { xeraAimInstanceTableEntry 18 }
+    
+     xeraAimMessage OBJECT-TYPE
+        SYNTAX      DisplayString
+        MAX-ACCESS  read-only
+        STATUS      current
+        DESCRIPTION
+            "Message being sent."
+        ::= { xeraAimInstanceTableEntry 19 }
+    
+    xeraAimRetryCount OBJECT-TYPE
+        SYNTAX      Integer32
+        MAX-ACCESS  read-only
+        STATUS      current
+        DESCRIPTION
+            "Number of retried performed."
+        ::= { xeraAimInstanceTableEntry 20 }
+    
+     xeraAimUrl OBJECT-TYPE
+        SYNTAX      DisplayString
+        MAX-ACCESS  read-only
+        STATUS      current
+        DESCRIPTION
+            "The remote AIM URL that this instance is trying to contact."
+        ::= { xeraAimInstanceTableEntry 21 }
+    
+     xeraAimCommand OBJECT-TYPE
+        SYNTAX      DisplayString32
+        MAX-ACCESS  read-only
+        STATUS      current
+        DESCRIPTION
+            "The command being sent.."
+        ::= { xeraAimInstanceTableEntry 22 }
+    
+    --**********************************************************
+    -- Traps
+    --**********************************************************
+
+    xeraAimTraps         OBJECT IDENTIFIER ::= { xeraAim 1000 }
+
+    --**********************************************************
+    --**** Trap Definitions ****
+
+    xeraAimAgentDoesNotExist NOTIFICATION-TYPE
+        OBJECTS { xeraAimProcessName, xeraAimLogin, xeraAimCompanyName, xeraAimTenantId}
+        STATUS      current
+        DESCRIPTION "AIM could not find the agent in its provisioning"
+        ::= { xeraAimTraps 1 }
+
+    xeraAimIncorrectPassword NOTIFICATION-TYPE
+        OBJECTS { xeraAimProcessName, xeraAimAgentId, xeraAimAgentName, xeraAimLogin, xeraAimTenantId}
+        STATUS      current
+        DESCRIPTION "Password provided by the agent at login time does not match the provisioned password"
+        ::= { xeraAimTraps 2 }
+
+    xeraAimWrongTenantName NOTIFICATION-TYPE
+        OBJECTS { xeraAimProcessName, xeraAimAgentId, xeraAimAgentName, xeraAimLogin, xeraAimCompanyName, xeraAimTenantId}
+        STATUS      current
+        DESCRIPTION "Agent is trying to login using a wrong company name"
+        ::= { xeraAimTraps 3 }
+
+    xeraAimInvalidLogin NOTIFICATION-TYPE
+        OBJECTS { xeraAimProcessName, xeraAimLogin, xeraAimCompanyName, xeraAimTpgIpAddress}
+        STATUS      current
+        DESCRIPTION "Error happened when agent is trying to login."
+        ::= { xeraAimTraps 4 }
+
+    xeraAimStorageError NOTIFICATION-TYPE
+        OBJECTS { xeraAimProcessName, xeraAimFilename, xeraAimDatatype, xeraAimOperationType }
+        STATUS      current
+        DESCRIPTION "Error happened when agent is trying to login."
+        ::= { xeraAimTraps 5 }
+
+    xeraAimServerConfigError NOTIFICATION-TYPE
+        OBJECTS { xeraAimProcessName, xeraAimFilename, xeraAimHostname, xeraAimConfigAgentUrl, xeraAimXpath, xeraAimXsltFile, xeraAimErrorMessage }
+        STATUS      current
+        DESCRIPTION "Error while reading the server configuration."
+        ::= { xeraAimTraps 6 }
+
+    xeraAimProvisioningDataFetchFailed NOTIFICATION-TYPE
+        OBJECTS { xeraAimProcessName, xeraAimDatatype, xeraAimDatabaseUrl, xeraAimDatabaseUser, xeraAimErrorMessage }
+        STATUS      current
+        DESCRIPTION "Error while reading provisioning data from the database"
+        ::= { xeraAimTraps 7 }
+
+    xeraAimAcgNotificationFailed NOTIFICATION-TYPE
+        OBJECTS { xeraAimProcessName, xeraAimAcgUrl, xeraAimMessage, xeraAimErrorMessage, xeraAimRetryCount }
+        STATUS      current
+        DESCRIPTION "Error while sending a notification to ACG"
+        ::= { xeraAimTraps 8 }
+
+    xeraAimNotificationFailed NOTIFICATION-TYPE
+        OBJECTS { xeraAimProcessName, xeraAimCommand, xeraAimUrl, xeraAimTenantId, xeraAimAgentId, xeraAimErrorMessage, xeraAimRetryCount }
+        STATUS      current
+        DESCRIPTION "Error while sending a notification to AIM"
+        ::= { xeraAimTraps 9 }
+        
+    xeraAimPasswordPolicyNotProvisioned NOTIFICATION-TYPE
+        OBJECTS { xeraAimProcessName, xeraAimTenantId, xeraAimAgentId, xeraAimErrorMessage }
+        STATUS      current
+        DESCRIPTION "When password policy not provisioned"
+        ::= { xeraAimTraps 10 }
+
+END

@@ -1,0 +1,311 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>com.transerainc</groupId>
+    <artifactId>aim</artifactId>
+    <version>1.0.0</version>
+
+    <dependencies>
+      <dependency>
+        <groupId>com.transerainc.xmlbinding</groupId>
+        <artifactId>tamCommonXMLBinding</artifactId>
+        <version>1.0.0</version>
+      </dependency>
+      <dependency>
+        <groupId>com.transerainc</groupId>
+        <artifactId>tam-common</artifactId>
+        <version>1.13</version>
+      </dependency>
+      <dependency>
+        <groupId>com.transerainc.xmlbinding</groupId>
+        <artifactId>aimXMLBinding</artifactId>
+        <version>1.0.0</version>
+      </dependency>
+      <!-- third party dependencies -->
+      <dependency>
+        <groupId>com.google.code.gson</groupId>
+        <artifactId>gson</artifactId>
+        <version>2.2.4</version>
+      </dependency>
+      <dependency>
+        <groupId>xalan</groupId>
+        <artifactId>xalan</artifactId>
+        <version>2.7.2</version>
+      </dependency>
+      <dependency>
+          <groupId>pt.uc.dei.agentx</groupId>
+          <artifactId>snmp</artifactId>
+          <version>1.0.xera</version>
+          <exclusions>
+       		 <exclusion>
+         	 <groupId>pt.uc.dei.agentx</groupId> 
+          	<artifactId>snmp</artifactId>
+       	 	</exclusion>
+      	</exclusions>
+      </dependency>
+      <dependency>
+          <groupId>pt.uc.dei.agentx</groupId>
+          <artifactId>agentxapi</artifactId>
+          <version>1.0.xera</version>
+           <exclusions>
+       		 <exclusion>
+         	 <groupId>pt.uc.dei.agentx</groupId> 
+          	<artifactId>agentxapi</artifactId>
+       	 	</exclusion>
+      	</exclusions>
+      </dependency>
+      <!-- checksum aa877d99644c7f086f0d55b167f1f62cd0ccdac8 matched annotations-api.jar -->
+      <dependency>
+       <groupId>org.apache.tomcat</groupId>
+       <artifactId>tomcat-annotations-api</artifactId>
+     <version>8.5.31</version>
+      </dependency>
+      <!-- checksum f6d8a2eefd177857ff84c2ed4d555f996d6bb086 matched catalina-ant.jar -->
+      <dependency>
+       <groupId>org.apache.tomcat</groupId>
+       <artifactId>tomcat-catalina-ant</artifactId>
+       <version>8.5.31</version>
+      </dependency>
+      <!-- checksum ec736692a4441e2b2a2825387f0ab7c49d6e6da0 matched catalina-ha.jar -->
+      <dependency>
+       <groupId>org.apache.tomcat</groupId>
+       <artifactId>tomcat-catalina-ha</artifactId>
+       <version>8.5.31</version>
+      </dependency>
+      <!-- checksum 5c442165ef73f8b36af4b94bd63ba074b045992b matched catalina-storeconfig.jar -->
+      <dependency>
+       <groupId>org.apache.tomcat</groupId>
+       <artifactId>tomcat-storeconfig</artifactId>
+       <version>8.5.31</version>
+      </dependency>
+      <!-- checksum 192b4c5c03ceefde5992013100f379a1d394c9f9 matched catalina-tribes.jar -->
+      <dependency>
+       <groupId>org.apache.tomcat</groupId>
+       <artifactId>tomcat-tribes</artifactId>
+       <version>8.5.31</version>
+      </dependency>
+      <!-- checksum 2da6311bff487e3aeb2a0f5b2101648b9818890d matched catalina.jar -->
+      <dependency>
+       <groupId>org.apache.tomcat</groupId>
+       <artifactId>tomcat-catalina</artifactId>
+       <version>8.5.31</version>
+      </dependency>
+      <!-- checksum 40fb048097caeacdb11dbb33b5755854d89efdeb matched commons-collections-3.1.jar -->
+     <dependency>
+			<artifactId>commons-collections4</artifactId>
+			<groupId>org.apache.commons</groupId>
+			<version>4.1</version>
+		</dependency>
+      <!-- checksum 336a280d178bb957e5233189f0f32e067366c4e5 matched commons-httpclient-3.0-rc4.jar -->
+      <dependency>
+       <groupId>commons-httpclient</groupId>
+       <artifactId>commons-httpclient</artifactId>
+       <version>3.0</version>
+      </dependency>
+      <!-- checksum 4763ecc9d78781c915c07eb03e90572c7ff04205 matched commons-lang-2.1.jar -->
+      <dependency>
+       <groupId>commons-lang</groupId>
+       <artifactId>commons-lang</artifactId>
+       <version>2.1</version>
+      </dependency>
+      <!-- checksum 905075e6c80f206bbe6cf1e809d2caa69f420c76 matched commons-lang3-3.1.jar -->
+      <dependency>
+       <groupId>org.apache.commons</groupId>
+       <artifactId>commons-lang3</artifactId>
+       <version>3.1</version>
+      </dependency>
+      <!-- checksum 544f72427e94a5c55b65a9b81c55c54059b4f993 matched commons-logging-api.jar -->
+      <dependency>
+       <groupId>tomcat</groupId>
+       <artifactId>commons-logging-api</artifactId>
+       <version>5.5.23</version>
+      </dependency>
+      <!-- checksum 544f72427e94a5c55b65a9b81c55c54059b4f993 matched commons-logging-api.jar -->
+      <dependency>
+       <groupId>commons-logging</groupId>
+       <artifactId>commons-logging-api</artifactId>
+       <version>1.0.4</version>
+      </dependency>
+      <!-- checksum 71d67f5bab9465ec844596ef844f40902ae25392 matched ecj-4.4.2.jar -->
+      <dependency>
+       <groupId>org.eclipse.jdt.core.compiler</groupId>
+       <artifactId>ecj</artifactId>
+       <version>4.4.2</version>
+      </dependency>
+      <!-- checksum 1e77747034b99c3d08962df9c8f1ed5cb7a2e65b matched el-api.jar -->
+      <dependency>
+       <groupId>org.apache.tomcat</groupId>
+       <artifactId>tomcat-el-api</artifactId>
+       <version>8.5.31</version>
+      </dependency>
+      <!-- checksum 9f76f1e4a55bb7028b8ad97ddb63da6f1eaff303 matched hsqldb.jar -->
+      <dependency>
+       <groupId>com.google.code.maven-play-plugin.hsqldb</groupId>
+       <artifactId>hsqldb</artifactId>
+       <version>1.8.1.2</version>
+      </dependency>
+      <!-- checksum 92460acb0bed996f58374622c1d207b31082e575 matched jasper-el.jar -->
+      <dependency>
+       <groupId>org.apache.tomcat</groupId>
+       <artifactId>tomcat-jasper-el</artifactId>
+       <version>8.5.31</version>
+      </dependency>
+      <!-- checksum ea5924496935669165bff29d31f253abd93a15f8 matched jasper.jar -->
+      <dependency>
+       <groupId>org.apache.tomcat</groupId>
+       <artifactId>tomcat-jasper</artifactId>
+       <version>8.5.31</version>
+      </dependency>
+      <!-- checksum 59eee422b84f211b2cf91de124857f23563e1d1c matched jaxme2-0.5.jar -->
+      <dependency>
+       <groupId>jaxme</groupId>
+       <artifactId>jaxme2</artifactId>
+       <version>0.5</version>
+      </dependency>
+      <!-- checksum 945051b5ee3ef128586f13a2b3e75707eb8a191b matched jaxme2-rt-0.5.jar -->
+      <dependency>
+       <groupId>jaxme</groupId>
+       <artifactId>jaxme2-rt</artifactId>
+       <version>0.5</version>
+      </dependency>
+      <!-- checksum 27eaf055e15e0bf1130a824ecbe224873aa917d3 matched jaxmeapi-0.5.jar -->
+      <dependency>
+       <groupId>jaxme</groupId>
+       <artifactId>jaxmeapi</artifactId>
+       <version>0.5</version>
+      </dependency>
+      <!-- checksum c0c13fdf68b423a1316c9eccdcf0b033df5d549b matched jaxmexs-0.5.jar -->
+      <dependency>
+       <groupId>jaxme</groupId>
+       <artifactId>jaxmexs</artifactId>
+       <version>0.5</version>
+      </dependency>
+      <!-- checksum 52c6cbc0467652b659ad7ef5502ba54d16f30a17 matched jsp-api.jar -->
+      <dependency>
+       <groupId>org.apache.tomcat</groupId>
+       <artifactId>tomcat-jsp-api</artifactId>
+       <version>8.5.31</version>
+      </dependency>
+      <!-- checksum d597cd0f5fbdbaf400de972f4984744263e5fd5f matched servlet-api.jar -->
+      <dependency>
+       <groupId>org.apache.tomcat</groupId>
+       <artifactId>tomcat-servlet-api</artifactId>
+       <version>8.5.31</version>
+      </dependency>
+      <!-- checksum abe5697be40e809af49b8241edb066686bcbec8f matched spring.jar -->
+      <dependency>
+       <groupId>org.springframework</groupId>
+       <artifactId>spring</artifactId>
+       <version>2.0.5</version>
+      </dependency>
+      <!-- checksum 1092887b06202d3323041424afe0f55bc3265b9a matched tomcat-api.jar -->
+      <dependency>
+       <groupId>org.apache.tomcat</groupId>
+       <artifactId>tomcat-api</artifactId>
+       <version>8.5.31</version>
+      </dependency>
+      <!-- checksum 9ee7d876212b6f99c5994c2f26d1d0da248cb05f matched tomcat-coyote.jar -->
+      <dependency>
+       <groupId>org.apache.tomcat</groupId>
+       <artifactId>tomcat-coyote</artifactId>
+       <version>8.5.31</version>
+      </dependency>
+      <!-- checksum 782df353bd234b50489ab117d6a783919179e980 matched tomcat-dbcp.jar -->
+      <dependency>
+       <groupId>org.apache.tomcat</groupId>
+       <artifactId>tomcat-dbcp</artifactId>
+       <version>8.5.31</version>
+      </dependency>
+      <!-- checksum 5fbde3c2aea57db18ce3329c7c682f727b200de8 matched tomcat-i18n-es.jar -->
+      <dependency>
+       <groupId>org.apache.tomcat</groupId>
+       <artifactId>tomcat-i18n-es</artifactId>
+       <version>8.5.31</version>
+      </dependency>
+      <!-- checksum b6ef136b669ee4ea62ab5779c355fa58f22e969e matched tomcat-i18n-fr.jar -->
+      <dependency>
+       <groupId>org.apache.tomcat</groupId>
+       <artifactId>tomcat-i18n-fr</artifactId>
+       <version>8.5.31</version>
+      </dependency>
+      <!-- checksum 449b345b86571fa18852df89719d95e4179bae43 matched tomcat-i18n-ja.jar -->
+      <dependency>
+       <groupId>org.apache.tomcat</groupId>
+       <artifactId>tomcat-i18n-ja</artifactId>
+       <version>8.5.31</version>
+      </dependency>
+      <!-- checksum 55396c45fc8c34f31420a3b280fde4b1387b044d matched tomcat-jdbc.jar -->
+      <dependency>
+       <groupId>org.apache.tomcat</groupId>
+       <artifactId>tomcat-jdbc</artifactId>
+       <version>8.5.31</version>
+      </dependency>
+      <!-- checksum e43f4d87b1511aa44962a162bfade34d35e3dfdc matched tomcat-jni.jar -->
+      <dependency>
+       <groupId>org.apache.tomcat</groupId>
+       <artifactId>tomcat-jni</artifactId>
+       <version>8.5.31</version>
+      </dependency>
+      <!-- checksum 18ceafa43ef870f95a8376367eb106cf42ee12e6 matched tomcat-util-scan.jar -->
+      <dependency>
+       <groupId>org.apache.tomcat</groupId>
+       <artifactId>tomcat-util-scan</artifactId>
+       <version>8.5.31</version>
+      </dependency>
+      <!-- checksum 1d60ab09529b509796f983ed9a8a58426e82f113 matched tomcat-util.jar -->
+      <dependency>
+       <groupId>org.apache.tomcat</groupId>
+       <artifactId>tomcat-util</artifactId>
+       <version>8.5.31</version>
+      </dependency>
+      <!-- checksum 80469d2d927cff729d5a3e627c47d4fa11b3f3b7 matched tomcat-websocket.jar -->
+      <dependency>
+       <groupId>org.apache.tomcat</groupId>
+       <artifactId>tomcat-websocket</artifactId>
+       <version>8.5.31</version>
+      </dependency>
+      <!-- checksum 7d3012456d407dc454d78c39fe8bd076a8d19c5e matched websocket-api.jar -->
+      <dependency>
+       <groupId>org.apache.tomcat</groupId>
+       <artifactId>tomcat-websocket-api</artifactId>
+       <version>8.5.31</version>
+      </dependency>
+      <!-- https://mvnrepository.com/artifact/org.slf4j/slf4j-simple -->
+	<dependency>
+    	<groupId>org.slf4j</groupId>
+    	<artifactId>slf4j-simple</artifactId>
+    	<version>1.7.25</version>
+    	<scope>test</scope>
+	</dependency>
+      <!-- https://mvnrepository.com/artifact/org.slf4j/slf4j-api -->
+	<dependency>
+   	 <groupId>org.slf4j</groupId>
+    	<artifactId>slf4j-api</artifactId>
+    	<version>1.7.25</version>
+	</dependency>
+      
+    </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.3</version>
+                <configuration>
+                    <source>1.8</source>
+                    <target>1.8</target>
+                </configuration>
+            </plugin>
+        </plugins>
+        <resources>
+            <resource>
+                <directory>src/main/resources</directory>
+                <filtering>true</filtering>
+            </resource>
+        </resources>
+    </build>
+</project>
